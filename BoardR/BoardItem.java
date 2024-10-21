@@ -7,11 +7,11 @@ public class BoardItem {
     private static final int TITLE_MIN_LENGTH = 5;
     private static final int TITLE_MAX_LENGTH = 30;
 
-    protected static Status INITIAL_STATUS = Status.OPEN;
-    protected static final Status FINAL_STATUS = Status.VERIFIED;
+    private static final Status INITIAL_STATUS = Status.OPEN;
+    private static final Status FINAL_STATUS = Status.VERIFIED;
 
     private String title;
-    protected Status status;
+    private Status status;
     private LocalDate dueDate;
     protected final List<EventLog> history = new ArrayList<>();
 
@@ -32,33 +32,31 @@ public class BoardItem {
     public Status getStatus() {
         return status;
     }
-
     public String getTitle() {
         return title;
+    }
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
     public void setTitle(String title) {
         validateTitle(title);
-        logEvent(String.format("Title changed from %s to %s", getTitle(), title));
 
+        logEvent(String.format("Title changed from %s to %s", getTitle(), title));
         this.title = title;
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
+
 
     public void setDueDate(LocalDate dueDate) {
         validateDueDate(dueDate);
 
         logEvent(String.format("DueDate changed from %s to %s", getDueDate(), dueDate));
-
         this.dueDate = dueDate;
     }
 
     private void setStatus(Status status) {
         logEvent(String.format("Status changed from %s to %s", getStatus(), status));
-
         this.status = status;
     }
 
