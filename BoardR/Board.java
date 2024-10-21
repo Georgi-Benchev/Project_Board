@@ -1,25 +1,21 @@
 package BoardR;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Board {
-    public int size;
-
-    private List<BoardItem> items = new ArrayList<>();
-
+    private final ArrayList<BoardItem> items;
     public Board() {
+        items = new ArrayList<>();
     }
 
 
     public void addItem(BoardItem item) {
         if (items.contains(item)) {
             throw new IllegalArgumentException("Item already in the list");
-        } else {
-            items.add(item);
         }
+        items.add(item);
     }
-
 
     public int totalItems() {
         return items.size();
