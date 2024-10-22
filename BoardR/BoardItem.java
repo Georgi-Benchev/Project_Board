@@ -1,4 +1,7 @@
 package BoardR;
+import BoardR.contracts.ConsoleLogger;
+import BoardR.contracts.Logger;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,9 @@ public class BoardItem {
         this.dueDate = dueDate;
         this.status = status;
 
+/*
         logEvent(String.format("Item created: %s", viewInfo()));
+*/
     }
     public BoardItem(String title, LocalDate dueDate){
         this(title,dueDate,INITIAL_STATUS);
@@ -56,7 +61,7 @@ public class BoardItem {
     }
 
     private void setStatus(Status status) {
-        logEvent(String.format("Status changed from %s to %s", getStatus(), status));
+        logEvent(String.format("Status changed from %s to %s", this.getStatus(), status));
         this.status = status;
     }
 
@@ -64,7 +69,7 @@ public class BoardItem {
         if (status != INITIAL_STATUS) {
             setStatus(Status.values()[status.ordinal() - 1]);
         } else {
-            logEvent(String.format("Can't revert, already at %s", getStatus()));
+            logEvent(String.format("Can't revert, already at %s", this.getStatus()));
         }
     }
 
@@ -72,22 +77,33 @@ public class BoardItem {
         if (status != FINAL_STATUS) {
             setStatus(Status.values()[status.ordinal() + 1]);
         } else {
-            logEvent(String.format("Can't advance, already at %s", getStatus()));
+            logEvent(String.format("Can't advance, already at %s", this.getStatus()));
         }
     }
 
     public String viewInfo() {
-        return String.format("'%s', [%s | %s]", title, status, dueDate);
+        return String.format("'%s', [%s | %s]", this.title, this.status, this.dueDate);
     }
 
     public void displayHistory() {
         for (EventLog log : history) {
+
             System.out.println(log.viewInfo());
         }
     }
 
-    private void logEvent(String event) {
-        history.add(new EventLog(event));
+    public String getHistory() {
+        StringBuilder builder = new StringBuilder();
+
+        for (EventLog event : history) {
+            builder.append(event.viewInfo()).append(System.lineSeparator());
+        }
+
+        return builder.toString();
+    }
+
+    protected void logEvent(String event) {
+        this.history.add(new EventLog(event));
     }
 
     private void validateTitle(String title) {
